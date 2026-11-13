@@ -36,6 +36,8 @@ opentelemetry-semantic-conventions==0.66b2
 packaging==26.3
 pluggy==1.7.0
 protobuf==7.36.2
+psycopg==3.3.9
+psycopg-binary==3.3.9
 pydantic==2.14.3
 pydantic-extra-types==2.11.1
 pydantic-settings==2.16.2
@@ -52,6 +54,8 @@ rignore==0.8.1
 ruff==0.17.5
 sentry-sdk==2.75.0
 shellingham==1.5.4
+SQLAlchemy==2.1.8
+sqlmodel==0.0.50
 starlette==1.10.0
 truststore==0.10.5
 typer==0.29.1
