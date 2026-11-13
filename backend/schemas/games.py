@@ -1,6 +1,8 @@
-from pydantic import BaseModel, Field
 from datetime import date
 from typing import Optional
+
+from pydantic import BaseModel, Field
+
 
 class BaseGame(BaseModel):
     name: str
@@ -10,7 +12,8 @@ class BaseGame(BaseModel):
     platform: str
     genres: str
     release_date: date
-    date_completed: Optional[date] = Field(default=None) 
+    date_completed: Optional[date] = None
+
 
 class ResponseGame(BaseGame):
     id: int
