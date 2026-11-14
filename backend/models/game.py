@@ -1,9 +1,9 @@
-from sqlmodel import SQLModel, Field
-from sqlalchemy import Column, JSON
-
-from enums.game_enums import Genre, Platform, Status
 from datetime import date
 from typing import Optional
+
+from enums.game_enums import Platform, Status
+from sqlalchemy import JSON, Column
+from sqlmodel import Field, SQLModel
 
 
 class Game(SQLModel, table=True):
