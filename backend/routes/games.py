@@ -1,7 +1,7 @@
 from typing import Annotated
 
-from fastapi import APIRouter
-from SQLModel import Depends, Session
+from fastapi import APIRouter, Depends
+from SQLModel import Session
 
 from backend.database import get_session
 
