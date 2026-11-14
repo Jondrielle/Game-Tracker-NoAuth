@@ -7,7 +7,6 @@ from backend.database import get_session
 
 sessionDeps = Annotated[Session, Depends(get_session)]
 
-
 game_router = APIRouter()
 
 

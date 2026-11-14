@@ -9,7 +9,7 @@ class BaseGame(BaseModel):
     name: str = Field(max_length=250)
     status: Status
     rating: Optional[int] = Field(default=None, ge=1, le=5)
-    notes: Optional[str] = Field(default=None)
+    notes: Optional[str] = Field(default=None, max_length=450)
     platform: Platform
     genres: list[Genre]
     release_date: date
