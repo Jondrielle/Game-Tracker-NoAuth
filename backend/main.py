@@ -1,10 +1,20 @@
+from contextlib import asynccontextmanager
+
+from database import create_db_and_tables
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routes.games import game_router
 
-app = FastAPI()
 
-origins = ["https://localhost:5173"]
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    create_db_and_tables()
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
+
+origins = ["http://localhost:5173"]
 
 app.add_middleware(
     CORSMiddleware,
