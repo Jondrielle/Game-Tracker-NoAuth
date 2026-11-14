@@ -1,9 +1,10 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends
-from SQLModel import Session
-
-from backend.database import get_session
+from database import get_session
+from fastapi import APIRouter, Depends, HTTPException
+from models.game import Game as GameModel
+from schemas.games import ResponseGame
+from sqlmodel import Session, select
 
 sessionDeps = Annotated[Session, Depends(get_session)]
 
@@ -11,15 +12,23 @@ game_router = APIRouter()
 
 
 # Get all games
-@game_router.get("/")
-async def get_games():
-    return {"message": "Return all games"}
+@game_router.get("/", response_model=list[ResponseGame])
+async def get_games(session: sessionDeps):
+    statement = select(GameModel)
+    return session.exec(statement).all()
 
 
 # Get a game
-@game_router.get("/{id}")
-async def get_game():
-    return {"message": "Retrieved game successfully"}
+@game_router.get("/{id}", response_model=ResponseGame)
+async def get_game(id: int, session: sessionDeps):
+    statement = select(GameModel).where(GameModel.id == id)
+
+    game = session.exec(statement).first()
+
+    if game is None:
+        raise HTTPException(status_code=404, detail="Game not found")
+
+    return game
 
 
 # Create a game
