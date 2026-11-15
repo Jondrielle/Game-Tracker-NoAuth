@@ -35,6 +35,7 @@ async def get_game(id: int, session: sessionDeps):
 @game_router.post("/game", response_model=ResponseGame)
 async def create_game(new_game: CreateGame, session: sessionDeps):
     current_game = GameModel(
+        igdb_id=new_game.igdb_id,
         name=new_game.name,
         synopsis=new_game.synopsis,
         cover_url=new_game.cover_url,
@@ -56,8 +57,18 @@ async def create_game(new_game: CreateGame, session: sessionDeps):
 
 # Delete a game
 @game_router.delete("/game/{id}")
-async def delete_game():
-    return {"message": "Delete Game Successfully"}
+async def delete_game(id: int, session: sessionDeps):
+    statement = select(GameModel).where(GameModel.id == id)
+
+    game = session.exec(statement).first()
+
+    if game is None:
+        raise HTTPException(status_code=404, detail="Game not found")
+
+    session.delete(game)
+    session.commit()
+
+    return {"message": "Deleted Game Successfully"}
 
 
 # Clear all games
