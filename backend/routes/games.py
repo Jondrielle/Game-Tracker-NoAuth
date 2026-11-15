@@ -3,7 +3,7 @@ from typing import Annotated
 from database import get_session
 from fastapi import APIRouter, Depends, HTTPException
 from models.game import Game as GameModel
-from schemas.games import ResponseGame
+from schemas.games import ResponseGame, CreateGame
 from sqlmodel import Session, select
 
 sessionDeps = Annotated[Session, Depends(get_session)]
@@ -32,9 +32,26 @@ async def get_game(id: int, session: sessionDeps):
 
 
 # Create a game
-@game_router.post("/game")
-async def create_game():
-    return {"message": "Game Created Successfully"}
+@game_router.post("/game", response_model=ResponseGame)
+async def create_game(new_game: CreateGame, session: sessionDeps):
+    current_game = GameModel(
+        name=new_game.name,
+        synopsis=new_game.synopsis,
+        cover_url=new_game.cover_url,
+        status=new_game.status,
+        rating=new_game.rating,
+        notes=new_game.notes,
+        platform=new_game.platform,
+        genres=[genre.value for genre in new_game.genres],
+        release_date=new_game.release_date,
+        date_completed=new_game.date_completed,
+    )
+
+    session.add(current_game)
+    session.commit()
+    session.refresh(current_game)
+
+    return current_game
 
 
 # Delete a game

@@ -6,6 +6,7 @@ from pydantic import BaseModel, Field
 
 
 class BaseGame(BaseModel):
+    igdb_id: Optional[int] = None
     name: str = Field(min_length=1, max_length=250)
     synopsis: Optional[str] = Field(default=None, max_length=1000)
     cover_url: Optional[str] = Field(default=None)
@@ -27,6 +28,7 @@ class CreateGame(BaseGame):
 
 
 class UpdateGame(BaseModel):
+    igdb_id: Optional[int] = None
     name: Optional[str] = Field(default=None, min_length=1, max_length=250)
     synopsis: Optional[str] = Field(default=None, max_length=1000)
     cover_url: Optional[str] = Field(default=None)

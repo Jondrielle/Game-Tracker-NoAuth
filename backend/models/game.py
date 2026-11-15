@@ -8,6 +8,7 @@ from sqlmodel import Field, SQLModel
 
 class Game(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
+    igdb_id: int | None = Field(default=None, index=True)
     name: str = Field(min_length=1, max_length=250)
     synopsis: Optional[str] = Field(default=None, max_length=1000)
     cover_url: Optional[str] = Field(default=None)
