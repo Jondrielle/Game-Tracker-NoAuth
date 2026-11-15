@@ -3,7 +3,7 @@ from typing import Annotated
 from database import get_session
 from fastapi import APIRouter, Depends, HTTPException
 from models.game import Game as GameModel
-from schemas.games import ResponseGame, CreateGame
+from schemas.games import CreateGame, ResponseGame
 from sqlmodel import Session, select
 
 sessionDeps = Annotated[Session, Depends(get_session)]
