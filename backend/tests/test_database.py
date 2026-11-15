@@ -1,6 +1,7 @@
 import pytest
-from database import engine
 from sqlalchemy import text
+
+from backend.database import engine
 
 
 @pytest.mark.skip(reason="Waiting for test database setup")
