@@ -73,8 +73,16 @@ async def delete_game(id: int, session: sessionDeps):
 
 # Clear all games
 @game_router.delete("/game")
-async def clear_games():
-    return {"message": "Clear games"}
+async def clear_games(session: sessionDeps):
+    statement = select(GameModel) 
+    games = session.exec(statement).all()
+
+    for game in games:
+        session.delete(game)
+        
+    session.commit()
+    
+    return {"message": "Cleared games"}
 
 
 # Update a game
